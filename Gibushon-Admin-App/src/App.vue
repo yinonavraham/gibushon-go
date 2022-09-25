@@ -4,6 +4,16 @@ import HelloWorld from "./components/HelloWorld.vue";
 </script>
 
 <template>
+  <router-view>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/register">Register</RouterLink>
+      <RouterLink to="/sign-in">Sign In</RouterLink>
+      <RouterLink to="/feeds">Feeds</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+    </nav>
+  </router-view>
+  <!--
   <header>
     <img
       alt="Vue logo"
@@ -18,11 +28,14 @@ import HelloWorld from "./components/HelloWorld.vue";
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/register">Register</RouterLink>
+        <RouterLink to="/sign-in">Sign In</RouterLink>
+        <RouterLink to="/feeds">Feeds</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
   </header>
-
+  -->
   <RouterView />
 </template>
 
