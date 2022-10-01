@@ -13,3 +13,11 @@
   }
 }
 </style>
+
+<script lang="ts">
+import {createExampleAuditionDefinition, createExampleAudition} from "@/datastore/example";
+
+const auditDef = createExampleAuditionDefinition();
+const audit = createExampleAudition(auditDef);
+console.log(audit);
+</script>

@@ -1,6 +1,15 @@
 <template>
   <h1>Create an account</h1>
-  <p><input type="text" placeholder="email" v-model="email"></p>
+  <p><FormKit
+      type="email"
+      label="email address"
+      help="Please enter your email address."
+      validation="required|email"
+      validation-visibility="live"
+      placeholder="user@example.com"
+      v-model="email"
+  /></p>
+  <!--p><input type="text" placeholder="email" v-model="email"></p-->
   <p><input type="password" placeholder="password" v-model="password"></p>
   <p><button @click="register">Register</button></p>
   <p><button @click="signInWithGoogle">Sign in with Google</button></p>
