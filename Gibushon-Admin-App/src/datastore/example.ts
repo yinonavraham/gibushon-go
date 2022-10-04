@@ -14,7 +14,7 @@ import {Candidate} from "@/datastore/models/audition/Candidate";
 import type {DurationValue, TextValue} from "@/datastore/models/audition/Value";
 import {Reviewer} from "@/datastore/models/audition/Reviewer";
 import type {UserID} from "@/datastore/models/users/UserProfile";
-import {LeaderRole, ReviewerRole, WatcherRole} from "@/datastore/models/audition/ReviewerRole";
+import {LeaderRole, ReviewerRole} from "@/datastore/models/auth/RoleType";
 
 let qualityGroupAttrID: AttributeDefinitionID;
 let runAttrID: AttributeDefinitionID;
@@ -144,7 +144,8 @@ export function createExampleAudition(auditionDef: AuditionDefinition): any {
     reviewer6.role = ReviewerRole;
     team3.reviewerIDs.add(reviewer7.userID);
     reviewer7.teamID = team3.id;
-    reviewer7.role = WatcherRole;
+    reviewer7.role = ReviewerRole;
+    reviewer7.watcher = true;
 
     return {
         audition: audition,

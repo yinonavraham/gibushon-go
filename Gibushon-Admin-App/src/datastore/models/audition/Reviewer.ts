@@ -1,14 +1,15 @@
 import type {EntityID} from "@/datastore/models/common/EntityID";
 import type {UnitID} from "@/datastore/models/audition/Unit";
-import type {ReviewerRoleType} from "@/datastore/models/audition/ReviewerRole";
 import type {UserID} from "@/datastore/models/users/UserProfile";
 import type {TeamID} from "@/datastore/models/audition/Team";
+import type {RoleType} from "@/datastore/models/auth/RoleType";
 
 export class Reviewer {
     userID: UserID = "";
     name: string = "";
     unitID: UnitID = "";
-    role: ReviewerRoleType = "";
+    role: RoleType | "" = "";
+    watcher: boolean = false;
     teamID: TeamID = "";
 
     constructor();

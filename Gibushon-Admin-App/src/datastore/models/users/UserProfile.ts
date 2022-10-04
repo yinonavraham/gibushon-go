@@ -6,4 +6,5 @@ export class UserProfile {
     lastName: string | undefined;
     email: string | undefined;
     photoUrl: string | undefined;
+    admin: boolean = false;
 }
