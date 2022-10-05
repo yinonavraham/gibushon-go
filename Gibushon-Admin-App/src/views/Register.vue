@@ -1,54 +1,77 @@
 <template>
-  <h1>Create an account</h1>
-  <p><FormKit
-      type="email"
-      label="email address"
-      help="Please enter your email address."
-      validation="required|email"
-      validation-visibility="live"
-      placeholder="user@example.com"
-      v-model="email"
-  /></p>
-  <!--p><input type="text" placeholder="email" v-model="email"></p-->
-  <p><input type="password" placeholder="password" v-model="password"></p>
-  <p><button @click="register">Register</button></p>
-  <p><button @click="signInWithGoogle">Sign in with Google</button></p>
+  <div class="flex align-items-center justify-content-center" style="position: absolute;top: 0; bottom: 0; width: 100%;">
+  <Card class="absolute">
+    <template #header>
+      <div class="flex justify-content-center w-full text-lg font-bold" style="padding: 10px">
+        Gibushon
+      </div>
+    </template>
+    <template #title>
+      Create an account
+    </template>
+    <template #content>
+      <div>
+        Enter the join code:
+        <div class="field" style="padding-top: 5px">
+          <InputText id="code" type="password" v-model="code" placeholder="Code" class="w-full" style="min-width: 30ch"/>
+        </div>
+      </div>
+      <div>Register using -</div>
+      <div style="padding: 5px"/>
+      <Accordion :activeIndex="0">
+        <AccordionTab header="Identity provider">
+          <div class="flex justify-content-center" style="padding-top: 10px">
+            <Button @click="registerWithGoogle" icon="pi pi-google" class="p-button-rounded p-button-lg"/>
+          </div>
+        </AccordionTab>
+        <AccordionTab header="Email and password">
+          <div>
+            <div class="field">
+              <InputText id="email" type="text" placeholder="Email" v-model="email" class="w-full"/>
+            </div>
+            <div class="field">
+              <InputText id="password" type="password" placeholder="Password" v-model="password" class="w-full"/>
+            </div>
+            <div class="field">
+              <InputText id="passwordConfirm" type="password" placeholder="Confirm Password" v-model="passwordConfirm" class="w-full"/>
+            </div>
+          </div>
+          <div class="flex justify-content-center">
+            <Button @click="registerWithEmailAndPassword">Register</Button>
+          </div>
+        </AccordionTab>
+      </Accordion>
+    </template>
+  </Card>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth"
-import { useRouter } from "vue-router";
+import {ref} from "vue";
+import {useRouter} from "vue-router";
+import {signInWithGoogle, createUserWithEmailAndPassword, SignInResult} from "@/services/AuthService";
 
+const code = ref("");
 const email = ref("");
 const password = ref("");
+const passwordConfirm = ref("");
 const router = useRouter();
 
-const register = () => {
-  let auth = getAuth();
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-      .then((data) => {
-        console.log("Successfully registered!");
-        console.log(auth.currentUser)
-        router.push("/feed");
-      })
-      .catch((err) => {
-        console.log("Error while creating an account: " + err);
-        alert(err);
-      });
+const registerWithGoogle = () => {
+  doRegister(signInWithGoogle);
 };
 
-const signInWithGoogle = () => {
-  const provider = new GoogleAuthProvider();
-  signInWithPopup(getAuth(), provider)
-      .then((result) => {
-        console.log("Successfully registered Google user");
-        console.log(result.user);
-        router.push("/feed");
-      })
-      .catch((err) => {
-        console.log("Error while registering Google user: ", err);
-        alert(err);
-      });
+const registerWithEmailAndPassword = () => {
+  doRegister(() => createUserWithEmailAndPassword(email.value, password.value));
 };
+
+const doRegister = (f: () => Promise<SignInResult>) => {
+  f().then((result) => {
+        console.log("Successfully registered user:", result);
+        router.push("/");
+  }).catch((err) => {
+        console.log("Error while registering user:", err);
+        alert(err);
+  });
+}
 </script>
