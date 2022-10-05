@@ -1,6 +1,6 @@
 <template>
   <div class="flex align-items-center justify-content-center" style="position: absolute;top: 0; bottom: 0; width: 100%;">
-  <Card class="absolute">
+  <Card class="absolute" style="min-width: 400px">
     <template #header>
       <div class="flex justify-content-center w-full text-lg font-bold" style="padding: 10px">
         Gibushon
@@ -13,7 +13,7 @@
       <div>
         Enter the join code:
         <div class="field" style="padding-top: 5px">
-          <InputText id="code" type="password" v-model="code" placeholder="Code" class="w-full" style="min-width: 30ch"/>
+          <InputText id="code" type="password" v-model="code" placeholder="Code" class="w-full" />
         </div>
       </div>
       <div>Register using -</div>

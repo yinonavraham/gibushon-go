@@ -1,7 +1,11 @@
 import type {AuthProvider, UserCredential, User} from "firebase/auth";
 import type {UserID} from "@/datastore/models/users/UserProfile";
 import {UserProfile} from "@/datastore/models/users/UserProfile";
-import {getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword as fbCreateUserWithEmailAndPassword} from "firebase/auth";
+import {
+    getAuth, GoogleAuthProvider, signInWithPopup,
+    createUserWithEmailAndPassword as fbCreateUserWithEmailAndPassword,
+    signInWithEmailAndPassword as fbSignInUserWithEmailAndPassword,
+} from "firebase/auth";
 import {getUserProfile, setUserProfile} from "@/datastore/services/UsersDao";
 import {NotFoundError} from "@/datastore/services/Common";
 
@@ -29,6 +33,14 @@ export function signInWithGoogle() : Promise<SignInResult> {
 
 export function createUserWithEmailAndPassword(email: string, password: string) : Promise<SignInResult> {
     return fbCreateUserWithEmailAndPassword(getAuth(), email, password).then(userInfo => {
+        return getOrCreateUserProfile(userInfo);
+    }).catch(err => {
+        return Promise.reject(err);
+    });
+}
+
+export function signInUserWithEmailAndPassword(email: string, password: string) : Promise<SignInResult> {
+    return fbSignInUserWithEmailAndPassword(getAuth(), email, password).then(userInfo => {
         return getOrCreateUserProfile(userInfo);
     }).catch(err => {
         return Promise.reject(err);
