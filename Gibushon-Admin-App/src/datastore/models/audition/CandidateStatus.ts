@@ -1,6 +1,7 @@
 import type {TeamID} from "@/datastore/models/audition/Team";
-import type {EntityID} from "@/datastore/models/common/EntityID";
+import type {EntityID} from "@/datastore/models/common/Entity";
 import {toUTC} from "@/utils/DateTime";
+import {newIllegalNumberOfArgsError} from "@/datastore/models/common/Errors";
 
 export type CandidateID = EntityID;
 
@@ -27,7 +28,7 @@ export class CandidateStatus {
             this.active = args[3] as boolean;
             return;
         }
-        throw new Error("BUG: Illegal number of arguments: " + args.length + " [" + Array.from(args) + "]");
+        throw newIllegalNumberOfArgsError(args);
     }
 
     quit(reason: string) : void {

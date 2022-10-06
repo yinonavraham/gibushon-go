@@ -1,4 +1,4 @@
-import type {EntityID} from "@/datastore/models/common/EntityID";
+import type {EntityID} from "@/datastore/models/common/Entity";
 import type {Validatable} from "@/datastore/models/common/Validatable";
 
 export type UnitID = EntityID;

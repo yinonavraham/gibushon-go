@@ -1,8 +1,9 @@
-import type {EntityID} from "@/datastore/models/common/EntityID";
+import type {EntityID} from "@/datastore/models/common/Entity";
 import type {UnitID} from "@/datastore/models/audition/Unit";
 import type {UserID} from "@/datastore/models/users/UserProfile";
 import type {TeamID} from "@/datastore/models/audition/Team";
 import type {RoleType} from "@/datastore/models/auth/RoleType";
+import {newIllegalNumberOfArgsError} from "@/datastore/models/common/Errors";
 
 export class Reviewer {
     userID: UserID = "";
@@ -21,6 +22,6 @@ export class Reviewer {
             this.name = args[1] as string;
             return;
         }
-        throw new Error("BUG: Illegal number of arguments: " + args.length + " [" + Array.from(args) + "]");
+        throw newIllegalNumberOfArgsError(args);
     }
 }

@@ -1,4 +1,4 @@
-import type {EntityID} from "@/datastore/models/common/EntityID";
+import type {EntityID} from "@/datastore/models/common/Entity";
 import type {TeamID} from "@/datastore/models/audition/Team";
 import type {TestDefinitionID} from "@/datastore/models/defenition/TestDefinition";
 

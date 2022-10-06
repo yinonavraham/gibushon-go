@@ -1,7 +1,8 @@
-import type {EntityID} from "@/datastore/models/common/EntityID";
+import type {EntityID} from "@/datastore/models/common/Entity";
 import {ScoreValueTypeDefinition} from "@/datastore/models/defenition/ValueDefinition";
 import type {ParameterDefinitionID} from "@/datastore/models/defenition/ParameterDefinition";
 import type {Validatable} from "@/datastore/models/common/Validatable";
+import {newIllegalNumberOfArgsError} from "@/datastore/models/common/Errors";
 
 export type TestDefinitionID = EntityID
 
@@ -26,7 +27,7 @@ export class TestDefinition implements Validatable {
             this.score = args[5] as ScoreValueTypeDefinition
             return;
         }
-        throw new Error("BUG: Illegal number of arguments: " + args.length + " [" + Array.from(args) + "]");
+        throw newIllegalNumberOfArgsError(args);
     }
 
     validate(): Error | null {

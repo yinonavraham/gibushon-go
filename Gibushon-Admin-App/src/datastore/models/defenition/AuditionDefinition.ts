@@ -1,4 +1,4 @@
-import type {EntityID} from "@/datastore/models/common/EntityID";
+import type {EntityID} from "@/datastore/models/common/Entity";
 import type {AttributeDefinitionID} from "@/datastore/models/defenition/AttributeDefinition";
 import {AttributeDefinition} from "@/datastore/models/defenition/AttributeDefinition";
 import type {ParameterDefinitionID} from "@/datastore/models/defenition/ParameterDefinition";

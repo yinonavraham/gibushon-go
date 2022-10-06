@@ -2,6 +2,7 @@ import type {ProtectedValue} from "@/datastore/models/audition/ProtectedValue";
 import type {AttributeDefinitionID} from "@/datastore/models/defenition/AttributeDefinition";
 import type {Value} from "@/datastore/models/audition/Value";
 import type {CandidateID} from "@/datastore/models/audition/CandidateStatus";
+import {newIllegalNumberOfArgsError} from "@/datastore/models/common/Errors";
 
 export class Candidate {
     id: CandidateID = "";
@@ -26,7 +27,7 @@ export class Candidate {
             this.attributes = args[4] as Map<AttributeDefinitionID, AttributeValue>;
             return;
         }
-        throw new Error("BUG: Illegal number of arguments: " + args.length + " [" + Array.from(args) + "]");
+        throw newIllegalNumberOfArgsError(args);
     }
 
     protectValues() : void {

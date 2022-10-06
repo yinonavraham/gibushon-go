@@ -1,4 +1,4 @@
-import type {EntityID} from "@/datastore/models/common/EntityID";
+import type {EntityID} from "@/datastore/models/common/Entity";
 import type {AuditionDefinitionID} from "@/datastore/models/defenition/AuditionDefinition";
 import type {UnitID} from "@/datastore/models/audition/Unit";
 import {Unit} from "@/datastore/models/audition/Unit";
@@ -6,10 +6,11 @@ import type {TeamID} from "@/datastore/models/audition/Team";
 import {Team} from "@/datastore/models/audition/Team";
 import {generateUniqueID} from "@/utils/UniqueID";
 import type {Validatable} from "@/datastore/models/common/Validatable";
+import {Entity} from "@/datastore/models/common/Entity";
 
 export type AuditionID = EntityID
 
-export class Audition implements Validatable {
+export class Audition extends Entity implements Validatable {
     id: AuditionID = "";
     name: string = "";
     description: string = "";

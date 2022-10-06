@@ -1,4 +1,5 @@
 import type {Validatable} from "@/datastore/models/common/Validatable";
+import {newIllegalNumberOfArgsError} from "@/datastore/models/common/Errors";
 
 export type ValueTypeDefinition =
     ScoreValueTypeDefinition |
@@ -20,7 +21,7 @@ export class ScoreValueTypeDefinition implements Validatable {
             this.max = args[1] as number;
             return;
         }
-        throw new Error("BUG: Illegal number of arguments: " + args.length + " [" + Array.from(args) + "]");
+        throw newIllegalNumberOfArgsError(args);
     }
 
     validate(): Error | null {
@@ -46,7 +47,7 @@ class BaseSelectValueTypeDefinition implements Validatable {
     constructor(values: string[]);
     constructor(values: string[], allowCustom: boolean);
     constructor(...args: any[]) {
-        if (args.length > 2) throw new Error("BUG: Illegal number of arguments: " + args.length);
+        if (args.length > 2) throw newIllegalNumberOfArgsError(args);
         if (args.length == 0) return;
         if (args.length <= 2) this.values = args[0] as string[];
         if (args.length == 2) this.allowCustom = args[1] as boolean;

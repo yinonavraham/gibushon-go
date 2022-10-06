@@ -26,21 +26,29 @@ import router from "./router";
 
 // Initialize the Firebase service
 import {fbApp} from "@/services/FirebaseService";
+import {addCurrentUserChangedListener} from "@/services/AuthService";
 
-const app = createApp(App);
+let app : App | null = null;
 
-app.use(createPinia());
-app.use(router);
+addCurrentUserChangedListener(() => initAppIfNeeded());
+
+const initAppIfNeeded = () => {
+    if (app) return;
+    app = createApp(App);
+
+    app.use(createPinia());
+    app.use(router);
 // app.use(plugin, defaultConfig);
-app.use(PrimeVue);
-app.component('InputText', InputText);
-app.component('Card', Card);
-app.component('Divider', Divider);
-app.component('Button', Button);
-app.component('Accordion', Accordion);
-app.component('AccordionTab', AccordionTab);
-app.component('Panel', Panel);
-app.component('Sidebar', Sidebar);
-app.component('PanelMenu', PanelMenu);
+    app.use(PrimeVue);
+    app.component('InputText', InputText);
+    app.component('Card', Card);
+    app.component('Divider', Divider);
+    app.component('Button', Button);
+    app.component('Accordion', Accordion);
+    app.component('AccordionTab', AccordionTab);
+    app.component('Panel', Panel);
+    app.component('Sidebar', Sidebar);
+    app.component('PanelMenu', PanelMenu);
 
-app.mount("#app");
+    app.mount("#app");
+}

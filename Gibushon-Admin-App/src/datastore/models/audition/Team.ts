@@ -1,4 +1,4 @@
-import type {EntityID} from "@/datastore/models/common/EntityID";
+import type {EntityID} from "@/datastore/models/common/Entity";
 import type {CandidateID} from "@/datastore/models/audition/CandidateStatus";
 import type {Validatable} from "@/datastore/models/common/Validatable";
 import type {UserID} from "@/datastore/models/users/UserProfile";
