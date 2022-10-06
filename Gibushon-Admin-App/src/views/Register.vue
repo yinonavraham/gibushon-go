@@ -1,5 +1,5 @@
 <template>
-  <div class="flex align-items-center justify-content-center" style="position: absolute;top: 0; bottom: 0; width: 100%;">
+  <div class="flex align-items-center justify-content-center" style="position: absolute;top: 0; bottom: 0; width: 100%; z-index: -1">
   <Card class="absolute" style="min-width: 400px">
     <template #header>
       <div class="flex justify-content-center w-full text-lg font-bold" style="padding: 10px">

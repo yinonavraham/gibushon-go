@@ -80,6 +80,24 @@ function getOrCreateUserProfile(userInfo: UserCredential) : Promise<SignInResult
     });
 }
 
+export function signOut() : Promise<void> {
+    return getAuth().signOut();
+}
+
+export function addCurrentUserChangedListener(listener: CurrentUserChangedListener) {
+    currentUserChangedListeners.push(listener);
+}
+
+function notifyCurrentUserChangedListeners(user: LoggedInUser | null) {
+    for (let listener of currentUserChangedListeners) {
+        listener(user);
+    }
+}
+
+export type CurrentUserChangedListener = (user: LoggedInUser | null) => {};
+
+const currentUserChangedListeners: CurrentUserChangedListener[] = [];
+
 export class LoggedInUser {
     user?: User;
     profile: UserProfile = new UserProfile();
@@ -92,15 +110,19 @@ export function getCurrentUser() : LoggedInUser | null {
 }
 
 function setCurrentUser(user: User, profile: UserProfile) {
+    console.log("Setting current user:", profile);
     const newLoggedInUser = new LoggedInUser();
     newLoggedInUser.user = user;
     newLoggedInUser.profile = profile;
     loggedInUser = newLoggedInUser;
+    notifyCurrentUserChangedListeners(loggedInUser);
 }
 
 getAuth().onAuthStateChanged((user) => {
+    console.log("Auth state changed:", user?.uid);
     if (user == null) {
         loggedInUser = null;
+        notifyCurrentUserChangedListeners(null);
         return;
     }
 })
