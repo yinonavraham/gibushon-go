@@ -6,7 +6,7 @@ import {
     createUserWithEmailAndPassword as fbCreateUserWithEmailAndPassword,
     signInWithEmailAndPassword as fbSignInUserWithEmailAndPassword,
 } from "firebase/auth";
-import {getUserAuditionRoles, getUserProfile, setUserProfile} from "@/datastore/services/UsersDao";
+import {fetchUserAuditionRoles, fetchUserProfile, saveUserProfile} from "@/datastore/services/UsersDao";
 import {NotFoundError} from "@/datastore/services/Common";
 import type {AuditionID} from "@/datastore/models/audition/Audition";
 import type {UserAuditionRole} from "@/datastore/models/users/UserAuditionRole";
@@ -51,7 +51,7 @@ export function signInUserWithEmailAndPassword(email: string, password: string) 
 
 function getOrCreateUserProfile(userInfo: UserCredential) : Promise<SignInResult> {
     let userID: UserID = userInfo.user.uid;
-    return getUserProfile(userID).then((user) => {
+    return fetchUserProfile(userID).then((user) => {
         setCurrentUser(userInfo.user, user);
         return Promise.resolve(new SignInResult(user, false));
     }).catch((err) => {
@@ -69,7 +69,7 @@ function getOrCreateUserProfile(userInfo: UserCredential) : Promise<SignInResult
             userProfile.admin = false;
             console.log("Created user profile:", userProfile);
             setCurrentUser(userInfo.user, userProfile);
-            setUserProfile(userProfile)
+            saveUserProfile(userProfile)
                 .then((result) => {
                     console.log("User profile saved successfully:", result);
                 })
@@ -107,7 +107,7 @@ export class LoggedInUser {
 
     get profile(): UserProfile | null {
         if (this._profile) return this._profile;
-        getUserProfile(this.user?.uid as string)
+        fetchUserProfile(this.user?.uid as string)
             .then(profile => this._profile = profile)
             .catch(err => console.log("Could not get user profile for '" + this.user?.uid + "':", err));
         return this._profile;
@@ -119,7 +119,7 @@ export class LoggedInUser {
 
     get auditionRoles(): Map<AuditionID, UserAuditionRole> | null {
         if (this._auditionRoles != null) return this._auditionRoles;
-        getUserAuditionRoles(this.user?.uid as string)
+        fetchUserAuditionRoles(this.user?.uid as string)
             .then(roles => {
                 this._auditionRoles = new Map();
                 roles.forEach(role => this._auditionRoles?.set(role.auditionID, role));

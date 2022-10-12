@@ -15,6 +15,7 @@ import type {DurationValue, TextValue} from "@/datastore/models/audition/Value";
 import {Reviewer} from "@/datastore/models/audition/Reviewer";
 import type {UserID} from "@/datastore/models/users/UserProfile";
 import {LeaderRole, ReviewerRole} from "@/datastore/models/auth/RoleType";
+import {saveAudition} from "@/datastore/services/AuditionsDao";
 
 let qualityGroupAttrID: AttributeDefinitionID;
 let runAttrID: AttributeDefinitionID;
@@ -63,6 +64,7 @@ export function createExampleAudition(auditionDef: AuditionDefinition): any {
     const team2 = audition.addTeam(2);
     const team3 = audition.addTeam(3);
     const lotarUnit = audition.addUnit("Lotar");
+    saveAudition(audition);
 
     const candidate1 = new Candidate(generateUniqueID("c"), "111111", "fname1", "lname1", new Map([[qualityGroupAttrID, "Liba" as TextValue],[runAttrID, "00:12:32" as DurationValue]]));
     const candidate2 = new Candidate(generateUniqueID("c"), "222222", "fname2", "lname2", new Map([[qualityGroupAttrID, "Liba" as TextValue],[runAttrID, "00:12:54" as DurationValue]]));
@@ -98,16 +100,6 @@ export function createExampleAudition(auditionDef: AuditionDefinition): any {
         [candidate9.id, new CandidateStatus(candidate9.id, 9, team3.id, true)],
         [candidate10.id, new CandidateStatus(candidate10.id, 10, team3.id, true)],
     ]);
-    team1.candidateIDs.add(candidate1.id);
-    team1.candidateIDs.add(candidate2.id);
-    team1.candidateIDs.add(candidate3.id);
-    team2.candidateIDs.add(candidate4.id);
-    team2.candidateIDs.add(candidate5.id);
-    team2.candidateIDs.add(candidate6.id);
-    team3.candidateIDs.add(candidate7.id);
-    team3.candidateIDs.add(candidate8.id);
-    team3.candidateIDs.add(candidate9.id);
-    team3.candidateIDs.add(candidate10.id);
     const reviewer1 = new Reviewer("vGrStr3Pd2N0T1lSL30K7EnrGtH3", "Reviewer One");
     const reviewer2 = new Reviewer("FQnAGyzTUURsjgGViJsw9UUSNzx1", "Reviewer Two");
     const reviewer3 = new Reviewer("q9rflct0TCh9CzvposNGGhoCWNc2", "Kermit Frog");
@@ -127,25 +119,22 @@ export function createExampleAudition(auditionDef: AuditionDefinition): any {
     team1.leaderID = reviewer1.userID;
     reviewer1.teamID = team1.id;
     reviewer1.role = LeaderRole;
-    team1.reviewerIDs.add(reviewer2.userID);
     reviewer2.teamID = team1.id;
     reviewer2.role = ReviewerRole;
     team2.leaderID = reviewer3.userID;
     reviewer3.teamID = team2.id;
     reviewer3.role = LeaderRole;
-    team2.reviewerIDs.add(reviewer4.userID);
     reviewer4.teamID = team2.id;
     reviewer4.role = ReviewerRole;
     team3.leaderID = reviewer5.userID;
     reviewer5.teamID = team3.id;
     reviewer5.role = LeaderRole;
-    team3.reviewerIDs.add(reviewer6.userID);
     reviewer6.teamID = team3.id;
     reviewer6.role = ReviewerRole;
-    team3.reviewerIDs.add(reviewer7.userID);
     reviewer7.teamID = team3.id;
     reviewer7.role = ReviewerRole;
     reviewer7.watcher = true;
+    saveAudition(audition);
 
     return {
         audition: audition,
