@@ -22,7 +22,7 @@ export class AuditionDefinition {
     interviewDefinition: InterviewDefinition = new InterviewDefinition();
 
     addParameterDefinition(name: string, description: string, type: ValueTypeDefinition) : ParameterDefinition {
-        let id = generateUniqueID("param_def")
+        let id = generateUniqueID("prmdef")
         let paramDef = new ParameterDefinition(id, name, description, type);
         let err = paramDef.validate();
         if (err != null) throw err;
@@ -32,7 +32,7 @@ export class AuditionDefinition {
 
     addTestDefinition(name: string, description: string, intensityGroup: number,
                       paramDefinitionIDs: Set<ParameterDefinitionID>, score: ScoreValueTypeDefinition) : TestDefinition {
-        let id = generateUniqueID("test_def")
+        let id = generateUniqueID("tstdef")
         let testDef = new TestDefinition(id, name, description, intensityGroup, paramDefinitionIDs, score);
         let err = testDef.validate();
         if (err != null) throw err;
@@ -46,7 +46,7 @@ export class CandidateDefinitions {
     quitReasons: QuitReasonsDefinition = new QuitReasonsDefinition();
 
     addAttributeDefinition(name: string, description: string, type: ValueTypeDefinition) : AttributeDefinition {
-        let id = generateUniqueID("attr_def")
+        let id = generateUniqueID("atrdef")
         let attributeDef = new AttributeDefinition(id, name, description, type);
         let err = attributeDef.validate();
         if (err != null) throw err;

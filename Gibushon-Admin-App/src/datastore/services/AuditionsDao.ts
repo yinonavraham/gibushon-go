@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, setDoc, getDocs, query, where} from "firebase/firestore";
 import {db} from "@/services/FirebaseService";
-import {NotFoundError, ObjectableConverter, updateEntityMetadata} from "@/datastore/services/Common";
+import {NotFoundError, ObjectableConverter, UniqueIDPrefix, updateEntityMetadata} from "@/datastore/services/Common";
 import {Audition} from "@/datastore/models/audition/Audition";
 import type {AuditionID} from "@/datastore/models/audition/Audition";
 import {generateUniqueID} from "@/utils/UniqueID";
@@ -18,7 +18,7 @@ export async function fetchAudition(auditionID: AuditionID): Promise<Audition> {
 
 export async function saveAudition(audition: Audition): Promise<Audition> {
     updateEntityMetadata(audition.metadata);
-    if (!audition.id) audition.id = generateUniqueID("audition");
+    if (!audition.id) audition.id = generateUniqueID(UniqueIDPrefix.Audition);
     const docRef = doc(auditionsRef, audition.id).withConverter(new AuditionConverter());
     await setDoc(docRef, audition);
     return audition;
