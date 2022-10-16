@@ -56,12 +56,12 @@ export class Candidate extends Entity {
 
     fromObject(obj: any) {
         super.fromObject(obj);
-        obj.id = this.id;
-        obj.auditionID = this.auditionID;
-        obj.personalNumber = protectedValueFromObjectValue(this.personalNumber);
-        obj.firstName = protectedValueFromObjectValue(this.firstName);
-        obj.lastName = protectedValueFromObjectValue(this.lastName);
-        obj.attributes = mapFromObjectValue(this.attributes);
+        this.id = obj.id;
+        this.auditionID = obj.auditionID;
+        this.personalNumber = protectedValueFromObjectValue(obj.personalNumber);
+        this.firstName = protectedValueFromObjectValue(obj.firstName);
+        this.lastName = protectedValueFromObjectValue(obj.lastName);
+        this.attributes = mapFromObjectValue(obj.attributes);
     }
 }
 

@@ -7,6 +7,15 @@ import {generateUniqueID} from "@/utils/UniqueID";
 
 export const auditionsRef = collection(db, "auditions");
 
+export async function fetchAuditions(): Promise<Array<Audition>> {
+    const q = query(auditionsRef)
+        .withConverter(new AuditionConverter());
+    const querySnap = await getDocs(q);
+    const result: Array<Audition> = [];
+    querySnap.forEach(qDocSnap => result.push(qDocSnap.data()));
+    return result;
+}
+
 export async function fetchAudition(auditionID: AuditionID): Promise<Audition> {
     const docRef = doc(auditionsRef, auditionID).withConverter(new AuditionConverter());
     const docSnap = await getDoc(docRef);
