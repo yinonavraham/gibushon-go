@@ -2,13 +2,14 @@ import type {EntityID} from "@/datastore/models/common/Entity";
 import type {Validatable} from "@/datastore/models/common/Validatable";
 import type {UserID} from "@/datastore/models/users/UserProfile";
 import type {Objectable} from "@/datastore/models/common/Objectable";
+import type {ReviewerID} from "@/datastore/models/audition/Reviewer";
 
 export type TeamID = EntityID;
 
 export class Team implements Validatable, Objectable {
     id : TeamID = "";
     number: number = 0;
-    leaderID: UserID = "";
+    leaderID: ReviewerID = "";
 
     validate(): Error | null {
         if (!this.id) return Error("BUG: Team ID is not defined");

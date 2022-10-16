@@ -32,6 +32,11 @@ export class Audition extends Entity implements Validatable {
         return this.teams.get(id);
     }
 
+    updateTeam(team: Team) {
+        if (!team.id) throw new Error("BUG: can't update team without having its ID");
+        this.teams.set(team.id, team);
+    }
+
     getTeams() : Array<Team> {
         const result: Array<Team> = [];
         for (let team of this.teams.values()) {

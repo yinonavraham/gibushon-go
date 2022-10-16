@@ -18,7 +18,8 @@ export function mapToObjectValue<K, V>(map: Map<K, V>) : any {
         if (keyType != "string") throw new Error("Illegal key type '" + keyType + "': " + k);
         const key: string = k as unknown as string;
         let value: any = v;
-        if ("toObject" in v) {
+        // @ts-ignore
+        if (v.toObject) {
             let vObj: Objectable = v as unknown as Objectable;
             value = {};
             vObj.toObject(value);

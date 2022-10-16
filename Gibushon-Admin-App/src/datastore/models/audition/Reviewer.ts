@@ -20,14 +20,13 @@ export class Reviewer extends Entity {
     teamID: TeamID = "";
 
     constructor();
-    constructor(reviewerID: ReviewerID, userID : UserID, name : string);
+    constructor(userID : UserID, name : string);
     constructor(...args : any[]) {
         super();
         if (args.length == 0) return;
-        if (args.length == 3) {
-            this.id = args[0] as ReviewerID;
-            this.userID = args[1] as UserID;
-            this.name = args[2] as string;
+        if (args.length == 2) {
+            this.userID = args[0] as UserID;
+            this.name = args[1] as string;
             return;
         }
         throw newIllegalNumberOfArgsError(args);

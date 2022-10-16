@@ -19,7 +19,7 @@ export class ReviewerCandidate extends Entity {
         obj.candidateID = this.candidateID;
         obj.reviewerID = this.reviewerID;
         obj.active = this.active;
-        obj.quitTime = this.quitTime ? dateToObjectValue(this.quitTime) : undefined;
+        if (this.quitTime) obj.quitTime = dateToObjectValue(this.quitTime);
         obj.quitReason = this.quitReason;
         obj.parameters = mapToObjectValue(this.parameters);
         obj.comments = this.comments;

@@ -55,7 +55,7 @@ export class CandidateStatus extends Entity {
         obj.number = this.number;
         obj.teamID = this.teamID;
         obj.active = this.active;
-        obj.quitTime = this.quitTime ? dateToObjectValue(this.quitTime as Date) : undefined;
+        if (this.quitTime) obj.quitTime = dateToObjectValue(this.quitTime as Date);
         obj.quitReason = this.quitReason;
     }
 

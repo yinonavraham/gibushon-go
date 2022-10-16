@@ -17,20 +17,19 @@ export class Candidate extends Entity {
     attributes: Map<AttributeDefinitionID, AttributeValue> = new Map();
 
     constructor();
-    constructor(id: CandidateID, personalNumber: string, firstName: string, lastName: string);
-    constructor(id: CandidateID, personalNumber: string, firstName: string, lastName: string, attributes: Map<AttributeDefinitionID, AttributeValue>);
+    constructor(personalNumber: string, firstName: string, lastName: string);
+    constructor(personalNumber: string, firstName: string, lastName: string, attributes: Map<AttributeDefinitionID, AttributeValue>);
     constructor(...args: any[]) {
         super();
         if (args.length == 0) return;
-        if (args.length >= 4) {
-            this.id = args[0] as CandidateID;
-            this.personalNumber = args[1] as string;
-            this.firstName = args[2] as string;
-            this.lastName = args[3] as string;
+        if (args.length >= 3) {
+            this.personalNumber = args[0] as string;
+            this.firstName = args[1] as string;
+            this.lastName = args[2] as string;
         }
-        if (args.length == 4) return;
-        if (args.length == 5) {
-            this.attributes = args[4] as Map<AttributeDefinitionID, AttributeValue>;
+        if (args.length == 3) return;
+        if (args.length == 4) {
+            this.attributes = args[3] as Map<AttributeDefinitionID, AttributeValue>;
             return;
         }
         throw newIllegalNumberOfArgsError(args);
