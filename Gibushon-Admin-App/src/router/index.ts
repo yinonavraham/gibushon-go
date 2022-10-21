@@ -22,6 +22,26 @@ const router = createRouter({
       name: "Register",
       component: () => import("../views/Register.vue"),
     },
+    {
+      path: "/reviewerapp",
+      name: "ReviewerApp",
+      component: () => import("../views/reviewer/ReviewerApp.vue"),
+    },
+    {
+      path: "/adminapp",
+      name: "AdminApp",
+      component: () => import("../views/admin/AdminApp.vue"),
+    },
+    {
+      path: "/managerapp",
+      name: "ManagerApp",
+      component: () => import("../views/manager/ManagerApp.vue"),
+    },
+    {
+      path: "/hrapp",
+      name: "HumanResourcesApp",
+      component: () => import("../views/hr/HumanResourcesApp.vue"),
+    },
   ],
 });
 

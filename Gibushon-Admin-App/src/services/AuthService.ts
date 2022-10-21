@@ -66,7 +66,6 @@ function getOrCreateUserProfile(userInfo: UserCredential) : Promise<SignInResult
             const split = displayName.search(" ");
             userProfile.firstName = split > 0 ? displayName.substring(0, split) : displayName;
             userProfile.lastName = split > 0 && split+1 < displayName.length ? displayName.substring(split+1) : "";
-            userProfile.admin = false;
             console.log("Created user profile:", userProfile);
             setCurrentUser(userInfo.user, userProfile);
             saveUserProfile(userProfile)
@@ -102,31 +101,19 @@ const currentUserChangedListeners: CurrentUserChangedListener[] = [];
 
 export class LoggedInUser {
     user?: User;
-    private _profile: UserProfile | null = null;
+    profile?: UserProfile;
     private _auditionRoles: Map<AuditionID, UserAuditionRole> | null = null;
 
-    get profile(): UserProfile | null {
-        if (this._profile) return this._profile;
-        fetchUserProfile(this.user?.uid as string)
-            .then(profile => this._profile = profile)
-            .catch(err => console.log("Could not get user profile for '" + this.user?.uid + "':", err));
-        return this._profile;
-    }
-
-    set profile(profile: UserProfile | null) {
-        this._profile = profile;
-    }
-
-    get auditionRoles(): Map<AuditionID, UserAuditionRole> | null {
+    async getAuditionRoles(): Promise<Map<AuditionID, UserAuditionRole>> {
         if (this._auditionRoles != null) return this._auditionRoles;
-        fetchUserAuditionRoles(this.user?.uid as string)
+        await fetchUserAuditionRoles(this.user?.uid as string)
             .then(roles => {
                 this._auditionRoles = new Map();
                 roles.forEach(role => this._auditionRoles?.set(role.auditionID, role));
                 console.log("Current user audition roles:", this._auditionRoles);
             })
             .catch(err => console.log("Could not get user audition roles: " + err));
-        return this._auditionRoles;
+        return this._auditionRoles ?? new Map();
     }
 }
 
@@ -136,7 +123,7 @@ export function getCurrentUser() : LoggedInUser | null {
     return loggedInUser;
 }
 
-function setCurrentUser(user: User, profile: UserProfile | null = null) {
+function setCurrentUser(user: User, profile: UserProfile | undefined = undefined) {
     console.log("Setting current user:", profile);
     const newLoggedInUser = new LoggedInUser();
     newLoggedInUser.user = user;
@@ -153,6 +140,11 @@ getAuth().onAuthStateChanged((user) => {
         return;
     }
     if (loggedInUser == null) {
-        setCurrentUser(user);
+        fetchUserProfile(user.uid as string)
+            .then(profile => setCurrentUser(user, profile))
+            .catch(err => {
+                setCurrentUser(user);
+                console.log("Could not get user profile for '" + user?.uid + "':", err)
+            });
     }
 })

@@ -9,8 +9,9 @@ import Button from 'primevue/button';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Panel from 'primevue/panel';
-import Sidebar from "primevue/sidebar";
-import PanelMenu from "primevue/panelmenu";
+import Sidebar from 'primevue/sidebar';
+import PanelMenu from 'primevue/panelmenu';
+import Avatar from 'primevue/avatar';
 // import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
 // import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
 import 'primevue/resources/themes/vela-green/theme.css';
@@ -49,6 +50,7 @@ const initAppIfNeeded = () => {
     app.component('Panel', Panel);
     app.component('Sidebar', Sidebar);
     app.component('PanelMenu', PanelMenu);
+    app.component('Avatar', Avatar);
 
     app.mount("#app");
 }
