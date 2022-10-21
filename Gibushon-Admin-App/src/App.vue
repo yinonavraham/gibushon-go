@@ -10,36 +10,19 @@ import {HumanResourcesRole, ManagerRole, ReviewerRole} from "@/datastore/models/
 const isLoggedIn = ref(false);
 const showSidebar = ref(false);
 const profilePhotoUrl = ref("");
-const auditionRoles = ref(new Map<AuditionID, UserAuditionRole>());
 const isAdmin = ref(false);
-const isManager = ref(false);
-const isHR = ref(false);
-const isReviewer = ref(false);
 
 addCurrentUserChangedListener((user) => {
-  console.log("User profile: ", user?.profile);
+  console.info("User: ", user);
   isLoggedIn.value = false;
   isAdmin.value = false;
-  isManager.value = false;
-  isHR.value = false;
-  isReviewer.value = false;
   if (user == null) {
     return;
   }
   isLoggedIn.value = true;
   profilePhotoUrl.value = (user.profile?.photoUrl) ? user.profile.photoUrl : "";
-  user.getAuditionRoles().then((audRoles) => {
-    auditionRoles.value = audRoles;
-    audRoles.forEach((userRole, audId) => {
-      if (userRole.roles.has(ManagerRole)) isManager.value = true;
-      if (userRole.roles.has(HumanResourcesRole)) isHR.value = true;
-      if (userRole.roles.has(ReviewerRole)) isReviewer.value = true;
-    });
-  }).catch((err) => {
-    console.warn("could not get audition roles for user: ", err);
-    auditionRoles.value = new Map<AuditionID, UserAuditionRole>();
-  });
-  isAdmin.value = true;
+  user.isAdmin().then(value => isAdmin.value = value)
+      .catch(err => console.warn("Could not resolve whether current user is an admin", err));
 });
 
 const doSignOut = () => {
@@ -57,29 +40,14 @@ const menuItems = ref([
     key: "admin",
     label: "Admin",
     icon: "pi pi-building",
-    to: "/adminapp",
+    to: "/admin",
     visible: isAdmin,
   },
   {
-    key: "manager",
-    label: "Manager",
+    key: "auditions",
+    label: "Auditions",
     icon: "pi pi-briefcase",
-    to: "/managerapp",
-    visible: isManager,
-  },
-  {
-    key: "human_resources",
-    label: "Human Resources",
-    icon: "pi pi-user-edit",
-    to: "/hrapp",
-    visible: isHR,
-  },
-  {
-    key: "reviewer",
-    label: "Reviewer",
-    icon: "pi pi-eye",
-    to: "/reviewerapp",
-    visible: isReviewer,
+    to: "/auditions",
   },
 ]);
 

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/Home.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,24 +22,34 @@ const router = createRouter({
       component: () => import("../views/Register.vue"),
     },
     {
-      path: "/reviewerapp",
-      name: "ReviewerApp",
-      component: () => import("../views/reviewer/ReviewerApp.vue"),
+      path: "/admin",
+      name: "Admin",
+      component: () => import("../views/admin/AdminHomeView.vue"),
     },
     {
-      path: "/adminapp",
-      name: "AdminApp",
-      component: () => import("../views/admin/AdminApp.vue"),
+      path: "/auditions",
+      name: "Auditions",
+      component: () => import("../views/auditions/AuditionsView.vue"),
     },
     {
-      path: "/managerapp",
-      name: "ManagerApp",
-      component: () => import("../views/manager/ManagerApp.vue"),
+      path: "/reviewer/audition",
+      name: "ReviewerAudition",
+      component: () => import("../views/auditions/reviewer/AuditionReviewerHomeView.vue"),
     },
     {
-      path: "/hrapp",
-      name: "HumanResourcesApp",
-      component: () => import("../views/hr/HumanResourcesApp.vue"),
+      path: "/manager/audition",
+      name: "ManagerAudition",
+      component: () => import("../views/auditions/manager/AuditionManagerHomeView.vue"),
+    },
+    {
+      path: "/leader/audition",
+      name: "LeaderAudition",
+      component: () => import("../views/auditions/leader/AuditionLeaderHomeView.vue"),
+    },
+    {
+      path: "/hr/audition",
+      name: "HumanResourcesAudition",
+      component: () => import("../views/auditions/hr/AuditionHRHomeView.vue"),
     },
   ],
 });

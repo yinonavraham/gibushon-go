@@ -3,7 +3,12 @@ import type {AuditionID} from "@/datastore/models/audition/Audition";
 import type {RoleType} from "@/datastore/models/auth/RoleType";
 import {toUTC} from "@/utils/DateTime";
 import {Entity} from "@/datastore/models/common/Entity";
-import {mapFromObjectValue, mapToObjectValue} from "@/datastore/models/common/Objectable";
+import {
+    dateFromObjectValue,
+    dateToObjectValue,
+    mapFromObjectValue,
+    mapToObjectValue
+} from "@/datastore/models/common/Objectable";
 
 export class UserAuditionRole extends Entity {
     userID: UserID = "";
@@ -17,7 +22,7 @@ export class UserAuditionRole extends Entity {
         obj.userID = this.userID;
         obj.auditionID = this.auditionID;
         obj.auditionName = this.auditionName;
-        obj.auditionCreatedAt = this.auditionCreatedAt;
+        obj.auditionCreatedAt = dateToObjectValue(this.auditionCreatedAt);
         obj.roles = mapToObjectValue(this.roles);
     }
 
@@ -26,7 +31,7 @@ export class UserAuditionRole extends Entity {
         this.userID = obj.userID;
         this.auditionID = obj.auditionID;
         this.auditionName = obj.auditionName;
-        this.auditionCreatedAt = obj.auditionCreatedAt;
+        this.auditionCreatedAt = dateFromObjectValue(obj.auditionCreatedAt);
         this.roles = mapFromObjectValue(obj.roles);
     }
 }

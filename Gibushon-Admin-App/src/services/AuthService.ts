@@ -102,7 +102,8 @@ const currentUserChangedListeners: CurrentUserChangedListener[] = [];
 export class LoggedInUser {
     user?: User;
     profile?: UserProfile;
-    private _auditionRoles: Map<AuditionID, UserAuditionRole> | null = null;
+    private _auditionRoles?: Map<AuditionID, UserAuditionRole>;
+    private _isAdmin?: boolean;
 
     async getAuditionRoles(): Promise<Map<AuditionID, UserAuditionRole>> {
         if (this._auditionRoles != null) return this._auditionRoles;
@@ -114,6 +115,13 @@ export class LoggedInUser {
             })
             .catch(err => console.log("Could not get user audition roles: " + err));
         return this._auditionRoles ?? new Map();
+    }
+
+    async isAdmin(): Promise<boolean> {
+        if (this._isAdmin != undefined) return this._isAdmin;
+        // TODO Implement
+        this._isAdmin = true;
+        return this._isAdmin;
     }
 }
 
