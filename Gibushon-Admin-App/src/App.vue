@@ -6,6 +6,7 @@ import router from "@/router";
 import type {AuditionID} from "@/datastore/models/audition/Audition";
 import {UserAuditionRole} from "@/datastore/models/users/UserAuditionRole";
 import {HumanResourcesRole, ManagerRole, ReviewerRole} from "@/datastore/models/auth/RoleType";
+import {useAuditionStore} from "@/stores/audition";
 
 const isLoggedIn = ref(false);
 const showSidebar = ref(false);
@@ -25,6 +26,8 @@ addCurrentUserChangedListener((user) => {
       .catch(err => console.warn("Could not resolve whether current user is an admin", err));
 });
 
+const auditionStore = useAuditionStore();
+
 const doSignOut = () => {
   showSidebar.value = false;
   signOut().then(() => {
@@ -35,18 +38,24 @@ const doSignOut = () => {
   });
 }
 
+const hideSidebar = function() {
+  showSidebar.value = false;
+}
+
 const menuItems = ref([
   {
     key: "admin",
     label: "Admin",
     icon: "pi pi-building",
     to: "/admin",
+    command: hideSidebar,
     visible: isAdmin,
   },
   {
     key: "auditions",
     label: "Auditions",
     icon: "pi pi-briefcase",
+    command: hideSidebar,
     to: "/auditions",
   },
 ]);

@@ -1,7 +1,7 @@
 <template>
   <main>
     <div>
-      <h1>Manager Home (Audition: {{ auditionStore.auditionID }})</h1>
+      <h1>Manager Home (Audition: {{ auditionStore.audition.name }})</h1>
     </div>
   </main>
 </template>

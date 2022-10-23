@@ -40,6 +40,7 @@ import {HumanResourcesRole, LeaderRole, ManagerRole, ReviewerRole} from "@/datas
 import router from "@/router";
 import type {AuditionID} from "@/datastore/models/audition/Audition";
 import {useAuditionStore} from "@/stores/audition";
+import {fetchAudition} from "@/datastore/services/AuditionsDao";
 
 const auditionStore = useAuditionStore();
 
@@ -47,24 +48,26 @@ const joinAudition = () => {
   window.alert("TODO: Join audition");
 };
 
-const goToAudition = (id: AuditionID, role: RoleType) => {
+async function goToAudition(id: AuditionID, role: RoleType) {
   console.log(`Go to audition ${id} as ${role}`);
+  const audition = await fetchAudition(id);
+  auditionStore.setCurrentAudition(audition);
   auditionStore.setCurrentAuditionID(id);
   switch (role) {
     case ReviewerRole:
-      router.push("/reviewer/audition");
+      await router.push("/reviewer/audition");
       break;
     case LeaderRole:
-      router.push("/leader/audition");
+      await router.push("/leader/audition");
       break;
     case ManagerRole:
-      router.push("/manager/audition");
+      await router.push("/manager/audition");
       break;
     case HumanResourcesRole:
-      router.push("/hr/audition");
+      await router.push("/hr/audition");
       break;
   }
-};
+}
 
 const auditions = ref(new Array<UserAuditionRole>());
 getCurrentUser()?.getAuditionRoles().then(auditionRoles => {
