@@ -35,7 +35,7 @@ export async function saveReviewerCandidate(reviewerCandidate: ReviewerCandidate
 }
 
 function reviewerCandidateID(reviewerID: ReviewerID, candidateID: CandidateID): string {
-    return `${reviewerID}_${candidateID}`
+    return `${candidateID}_${reviewerID}`
 }
 
 class ReviewerCandidateConverter extends ObjectableConverter<ReviewerCandidate> {
