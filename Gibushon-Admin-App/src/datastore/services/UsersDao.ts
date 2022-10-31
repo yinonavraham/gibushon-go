@@ -4,6 +4,7 @@ import {collection, doc, getDoc, setDoc, getDocs, query, where} from "firebase/f
 import {db} from "@/services/FirebaseService";
 import {NotFoundError, ObjectableConverter, updateEntityMetadata} from "@/datastore/services/Common";
 import {UserAuditionRole} from "@/datastore/models/users/UserAuditionRole";
+import type {AuditionID} from "@/datastore/models/audition/Audition";
 
 const userProfilesRef = collection(db, "user_profiles");
 
@@ -45,10 +46,14 @@ export async function fetchUserAuditionRoles(userID: UserID): Promise<Array<User
 
 export async function saveUserAuditionRole(userAuditionRole: UserAuditionRole): Promise<UserAuditionRole> {
     updateEntityMetadata(userAuditionRole.metadata);
-    const docID = userAuditionRole.userID + "_" + userAuditionRole.auditionID;
+    const docID = userAuditionRoleID(userAuditionRole.userID, userAuditionRole.auditionID);
     const docRef = doc(userAuditionRolesRef, docID).withConverter(new UserAuditionRoleConverter());
     await setDoc(docRef, userAuditionRole);
     return userAuditionRole;
+}
+
+function userAuditionRoleID(userID: UserID, auditionID: AuditionID) : string {
+    return `${auditionID}_${userID}`
 }
 
 class UserAuditionRoleConverter extends ObjectableConverter<UserAuditionRole> {

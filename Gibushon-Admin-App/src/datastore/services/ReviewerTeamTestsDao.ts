@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, setDoc, getDocs, query, where} from "firebase/firestore";
 import {db} from "@/services/FirebaseService";
-import {NotFoundError, ObjectableConverter, UniqueIDPrefix, updateEntityMetadata} from "@/datastore/services/Common";
+import {NotFoundError, ObjectableConverter, updateEntityMetadata} from "@/datastore/services/Common";
 import type {ReviewerID} from "@/datastore/models/audition/Reviewer";
 import {ReviewerTeamTest} from "@/datastore/models/audition/ReviewerTeamTest";
 import type {TeamTestID} from "@/datastore/models/audition/ReviewerTeamTest";
@@ -29,11 +29,16 @@ export async function fetchReviewerTeamTest(testID: TeamTestID): Promise<Reviewe
 
 export async function saveReviewerTeamTest(reviewerTeamTest: ReviewerTeamTest): Promise<ReviewerTeamTest> {
     updateEntityMetadata(reviewerTeamTest.metadata);
-    if (!reviewerTeamTest.id) reviewerTeamTest.id = generateUniqueID(UniqueIDPrefix.ReviewerTeamTest);
+    if (!reviewerTeamTest.id) reviewerTeamTest.id = reviewerTeamTestID(reviewerTeamTest.reviewerID);
     const docRef = doc(reviewerTeamTestsRef, reviewerTeamTest.id)
         .withConverter(new ReviewerTeamTestConverter());
     await setDoc(docRef, reviewerTeamTest);
     return reviewerTeamTest;
+}
+
+function reviewerTeamTestID(reviewerID : ReviewerID) : TeamTestID {
+    const generated: string = generateUniqueID();
+    return `${generated}_${reviewerID}`;
 }
 
 class ReviewerTeamTestConverter extends ObjectableConverter<ReviewerTeamTest> {

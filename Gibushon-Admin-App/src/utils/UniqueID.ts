@@ -5,6 +5,6 @@ const ulid = monotonicFactory();
 
 export type UniqueID = string
 
-export function generateUniqueID(prefix : string) : UniqueID {
-    return prefix + "_" + ulid(new Date().getUTCDate());
+export function generateUniqueID(prefix : string = "") : UniqueID {
+    return prefix + ulid(new Date().getUTCDate());
 }

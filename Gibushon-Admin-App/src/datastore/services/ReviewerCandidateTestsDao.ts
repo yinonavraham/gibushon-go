@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, setDoc, getDocs, query, where} from "firebase/firestore";
 import {db} from "@/services/FirebaseService";
-import {NotFoundError, ObjectableConverter, UniqueIDPrefix, updateEntityMetadata} from "@/datastore/services/Common";
+import {NotFoundError, ObjectableConverter, updateEntityMetadata} from "@/datastore/services/Common";
 import type {ReviewerID} from "@/datastore/models/audition/Reviewer";
 import type {CandidateID} from "@/datastore/models/audition/CandidateStatus";
 import {ReviewerCandidateTest} from "@/datastore/models/audition/ReviewerCandidateTest";
@@ -42,11 +42,15 @@ export async function fetchReviewerCandidateTest(id: ReviewerCandidateTestID): P
 
 export async function saveReviewerCandidate(reviewerCandidateTest: ReviewerCandidateTest): Promise<ReviewerCandidateTest> {
     updateEntityMetadata(reviewerCandidateTest.metadata);
-    if (!reviewerCandidateTest.id) reviewerCandidateTest.id = `${reviewerCandidateTest.reviewerID}_${reviewerCandidateTest.candidateID}_${reviewerCandidateTest.teamTestID}`;
+    if (!reviewerCandidateTest.id) reviewerCandidateTest.id = reviewerCandidateTestID(reviewerCandidateTest.candidateID, reviewerCandidateTest.teamTestID);
     const docRef = doc(reviewerCandidateTestsRef, reviewerCandidateTest.id)
         .withConverter(new ReviewerCandidateTestConverter());
     await setDoc(docRef, reviewerCandidateTest);
     return reviewerCandidateTest;
+}
+
+function reviewerCandidateTestID(candidateID: CandidateID, teamTestID: TeamTestID) : ReviewerCandidateTestID {
+    return `${candidateID}_${teamTestID}`;
 }
 
 class ReviewerCandidateTestConverter extends ObjectableConverter<ReviewerCandidateTest> {

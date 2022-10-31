@@ -1,9 +1,8 @@
 import {collection, doc, getDoc, setDoc, getDocs, query, where} from "firebase/firestore";
 import {db} from "@/services/FirebaseService";
-import {NotFoundError, ObjectableConverter, UniqueIDPrefix, updateEntityMetadata} from "@/datastore/services/Common";
+import {NotFoundError, ObjectableConverter, updateEntityMetadata} from "@/datastore/services/Common";
 import type {ReviewerID} from "@/datastore/models/audition/Reviewer";
 import type {CandidateID} from "@/datastore/models/audition/CandidateStatus";
-import {ReviewerCandidateSummary} from "@/datastore/models/audition/ReviewerCandidateSummary";
 import {ReviewerCandidateInterview} from "@/datastore/models/audition/ReviewerCandidateInterview";
 
 export const reviewerCandidateInterviewsRef = collection(db, "reviewer_candidate_interviews");
@@ -36,7 +35,7 @@ export async function saveReviewerCandidateInterview(reviewerCandidateInterview:
 }
 
 function reviewerCandidateID(reviewerID: ReviewerID, candidateID: CandidateID): string {
-    return `${reviewerID}_${candidateID}`
+    return `${candidateID}_${reviewerID}`
 }
 
 class ReviewerCandidateInterviewConverter extends ObjectableConverter<ReviewerCandidateInterview> {

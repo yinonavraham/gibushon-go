@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, setDoc, getDocs, query, where} from "firebase/firestore";
 import {db} from "@/services/FirebaseService";
-import {NotFoundError, ObjectableConverter, UniqueIDPrefix, updateEntityMetadata} from "@/datastore/services/Common";
+import {NotFoundError, ObjectableConverter, updateEntityMetadata} from "@/datastore/services/Common";
 import type {AuditionID} from "@/datastore/models/audition/Audition";
 import {Candidate} from "@/datastore/models/audition/Candidate";
 import type {CandidateID} from "@/datastore/models/audition/CandidateStatus";
@@ -29,10 +29,15 @@ export async function fetchCandidate(candidateID: CandidateID): Promise<Candidat
 
 export async function saveCandidate(candidate: Candidate): Promise<Candidate> {
     updateEntityMetadata(candidate.metadata);
-    if (!candidate.id) candidate.id = generateUniqueID(UniqueIDPrefix.Candidate);
+    if (!candidate.id) candidate.id = candidateID(candidate.auditionID);
     const docRef = doc(auditionCandidatesRef, candidate.id).withConverter(new CandidateConverter());
     await setDoc(docRef, candidate);
     return candidate;
+}
+
+function candidateID(auditionID: AuditionID) : CandidateID {
+    const generated: string = generateUniqueID();
+    return `${auditionID}_${generated}`;
 }
 
 class CandidateConverter extends ObjectableConverter<Candidate> {

@@ -35,15 +35,3 @@ export class ObjectableConverter<T extends Objectable> implements FirestoreDataC
         return data;
     }
 }
-
-export enum UniqueIDPrefix {
-    AuditionDefinition = "auddef",
-    Audition = "aud",
-    Unit = "unt",
-    Team = "tem",
-    Reviewer = "rev",
-    ReviewerCandidate = "revcan",
-    ReviewerTeamTest = "revtemtst",
-    ReviewerCandidateTest = "revcantst",
-    Candidate = "can",
-}

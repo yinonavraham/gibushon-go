@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, setDoc, getDocs, query, where} from "firebase/firestore";
 import {db} from "@/services/FirebaseService";
-import {NotFoundError, ObjectableConverter, UniqueIDPrefix, updateEntityMetadata} from "@/datastore/services/Common";
+import {NotFoundError, ObjectableConverter, updateEntityMetadata} from "@/datastore/services/Common";
 import type {ReviewerID} from "@/datastore/models/audition/Reviewer";
 import type {CandidateID} from "@/datastore/models/audition/CandidateStatus";
 import {ReviewerCandidate} from "@/datastore/models/audition/ReviewerCandidate";

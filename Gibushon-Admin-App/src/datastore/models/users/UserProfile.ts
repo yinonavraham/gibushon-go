@@ -7,6 +7,7 @@ export class UserProfile extends Entity {
     firstName: string = "";
     lastName: string = "";
     email: string = "";
+    phoneNumber: string = "";
     photoUrl: string | undefined;
 
     toObject(obj: any) {
@@ -15,6 +16,7 @@ export class UserProfile extends Entity {
         obj.firstName = this.firstName;
         obj.lastName = this.lastName;
         obj.email = this.email;
+        obj.phoneNumber = this.phoneNumber;
         obj.photoUrl = this.photoUrl;
     }
 
@@ -24,6 +26,7 @@ export class UserProfile extends Entity {
         this.firstName = obj.firstName;
         this.lastName = obj.lastName;
         this.email = obj.email;
+        this.phoneNumber = obj.phoneNumber;
         this.photoUrl = obj.photoUrl;
     }
 }
